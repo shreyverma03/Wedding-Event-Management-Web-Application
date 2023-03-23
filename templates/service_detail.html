@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/style_nav.css">
+
+{% block title %} Service Details {% endblock title %}
+
+{% block nav0link %}
+  /
+{% endblock nav0link %}
+
+{% block nav0 %}
+    Home
+{% endblock nav0 %}
+{% block nav1link %}
+  #events
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %} 
+
+  {% if user.is_authenticated %}
+    
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %} 
+
+  {% if user.is_authenticated %}
+    Hello, {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %} 
+
+  {% if user.is_authenticated %}
+    /contact
+  {% else %}
+    /contact
+  {% endif %}
+
+{% endblock nav3link %}
+
+{% block nav3 %} 
+
+  {% if user.is_authenticated %}
+     Participate
+  {% else %}
+     Participate
+  {% endif %}
+
+{% endblock nav3 %}
+
+{% block nav4link %} 
+
+  {% if user.is_authenticated %}
+    /logout 
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %} 
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+
+{% block body %} 
+<div class="navv">
+<div class="canvas-container">
+    <canvas id="canv" width="32" height="32">
+</div>
+<div class = "container-fluid px-0" style="height: auto;">
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="5000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://source.unsplash.com/1600x500/?{{service.service_type.name}},{{service.id.tag}}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+</div>
+<div >
+
+<div class="container mt-4 mb-4" >
+<h1 class="text-center pt-3 pb-3" style="font-family:roboto;font-weight:bold;color:darkblue;"> {{service.title}}</h1>
+<div style="padding:20px;">
+ <div class="row">
+    <div class="col-sm">
+      <u><h2 class="pt-4" style="font-family:oswald;color:darkblue;"> <img src="https://img.icons8.com/cute-clipart/64/000000/about.png"/> About our Service </h2></u>
+      <h4 style="text-align:justify;padding-top:20px;padding-bottom:20px;font-family:pt seriff;color:red;"> {{service.desc}} </h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm">
+      <u><h2 style="font-family:oswald; font-weight:bolder;color:darkblue;"> <img src="https://img.icons8.com/nolan/64/tags.png"/> Featured Package Price</h2></u>
+      <h4 style="font-family:montserrat;text-align:justify;color:red;"> ${{service.featured_package_price}} </h4>
+    </div>
+    <div class="col-sm">
+      <u><h2 style="font-family:oswald;padding-right:170px;color:darkblue;"> <img src="https://img.icons8.com/dusk/64/000000/date-to.png"/> Event Tag </h2></u>
+      <h4 style="font-family:montserrat;text-align:justify;color:red;"> {{service.service_type.tag}} </h4>
+    </div>
+</div>
+<div class="row pt-4">
+    <div class="col-sm">
+      <u><h2 style="font-family:oswald;"> <img src="https://img.icons8.com/dusk/64/000000/worldwide-location.png"/> Location </h2></u>
+      <h4 style="font-family:montserrat;text-align:justify;color:red;"> {{service.city}}, &nbsp;{{ service.state }} </h4>
+    </div>
+    <div class="col-sm">
+      <u><h2 style="font-family:oswald;color:darkblue;"> <img src="https://img.icons8.com/nolan/64/time-card.png"/> Organizer </h2></u>
+      <h4 style="font-family:montserrat;text-align:justify;color:red;">{{service.organizer}}</h4>
+    </div>
+</div>
+<br><br><br>
+
+    <a href="% url 'book_service' service_id=service.id %" class="btn btn-primary" data-toggle="modal" data-target="#bookingModal">Book now</a>
+    <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="bookingModalLabel">Book {{ service.title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div>
+<script src="static/js/script2.js"></script>
+<script>
+function myFunction() {
+  /* Get the text field */
+  var copyText = document.getElementById("copyContent");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Registration id successfully created. You can now go to the participation page and paste it in the form");
+}
+</script>
+
+{% endblock body %}
